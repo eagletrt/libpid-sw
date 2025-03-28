@@ -31,7 +31,7 @@
  * \param[in] prev_errors Pointer to the arena allocator for previous errors.
  * \param[in] n_prev_errors Number of previous errors to store for derivative calculation.
  */
-void pid_init(PidController_t *pid_controller,
+int pid_controller_init(PidController_t *pid_controller,
               float kp,
               float ki,
               float kd,
@@ -61,7 +61,7 @@ void pid_update(PidController_t *pid_controller, float status);
  * 
  * \return The computed control value.
  */
-float pid_compute(PidController_t *pid_controller);
+float pid_controller_compute(PidController_t *pid_controller);
 
 /*!
  * \brief Reset the PID controller.
@@ -70,6 +70,6 @@ float pid_compute(PidController_t *pid_controller);
  * 
  * \param[in] pid_controller Pointer to the PID controller structure.
  */
-void pid_reset(PidController_t *pid_controller);
+void pid_controller_reset(PidController_t *pid_controller);
 
 #endif

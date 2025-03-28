@@ -31,7 +31,7 @@
  * \param arena A pointer to the arena allocator for dynamic memory allocation.
  * \param n_prev_errors The number of previous errors to store for derivative calculation.
  */
-void pid_init(PidController_t *pid_controller,
+int pid_controller_init(PidController_t *pid_controller,
               float kp,
               float ki,
               float kd,
@@ -39,6 +39,9 @@ void pid_init(PidController_t *pid_controller,
               float anti_windUp,
               ArenaAllocatorHandler_t *arena,
               uint8_t n_prev_errors) {
+
+    if (pid_controller == NULL || (arena == NULL && n_prev_errors > 0)) return -1;
+
     pid_controller->kp = kp;
     pid_controller->ki = ki;
     pid_controller->kd = kd;
@@ -50,23 +53,22 @@ void pid_init(PidController_t *pid_controller,
     pid_controller->anti_windUp = anti_windUp;
 
     if(n_prev_errors == 0){
-        pid_controller->n_prev_errors = 0;
+        pid_controller->n_prev_errors = n_prev_errors;
         pid_controller->prev_error_index = 0;
         pid_controller->prev_errors = NULL;
-        return;
+        return 0;
     }
 
-    if (pid_controller == NULL || arena == NULL) return;
-        
-    pid_controller->n_prev_errors = n_prev_errors;
     pid_controller->prev_error_index = pid_controller->n_prev_errors - 1;
     pid_controller->prev_errors = (float*) arena_allocator_api_calloc(arena, sizeof(float), n_prev_errors);
     
-    if (pid_controller->prev_errors == NULL)  return; 
+    if (pid_controller->prev_errors == NULL)  return -1; 
 
     for(int i = 0; i<n_prev_errors; i++){
         pid_controller->prev_errors[i] = 0.0f;
     }
+    
+    return 0;
 }
 
 /*!
@@ -79,7 +81,7 @@ void pid_init(PidController_t *pid_controller,
  * \param pid_controller A pointer to the PID controller structure.
  * \param status The current process variable (status) to be used in the PID calculation.
  */
-void pid_update(PidController_t *pid_controller, float status) {
+void pid_controller_update(PidController_t *pid_controller, float status) {
     if(pid_controller->n_prev_errors == 0){
         pid_controller->error = pid_controller->set_point - status;
         pid_controller->integrator += pid_controller->error * pid_controller->sample_time;
@@ -109,7 +111,7 @@ void pid_update(PidController_t *pid_controller, float status) {
  * 
  * \return The computed PID control output value.
  */
-float pid_compute(PidController_t *pid_controller) {
+float pid_controller_compute(PidController_t *pid_controller) {
 
     if(pid_controller->n_prev_errors == 0){
         float integral = pid_controller->ki * pid_controller->integrator;
@@ -133,7 +135,7 @@ float pid_compute(PidController_t *pid_controller) {
  * 
  * \param pid_controller A pointer to the PID controller structure.
  */
-void pid_reset(PidController_t *pid_controller) {
+void pid_controller_reset(PidController_t *pid_controller) {
     pid_controller->integrator = 0.0f;
 
     pid_controller->error = 0.0f;

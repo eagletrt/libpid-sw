@@ -42,6 +42,7 @@
  void tearDown() {
      pid_reset(&pid);
      pid_reset(&pid_prev_errors);
+     arena_allocator_api_free(&prev_errors);
  }
  
  /*!
@@ -210,9 +211,6 @@
      RUN_TEST(test_pid_update_with_prev_errors);
      RUN_TEST(test_pid_compute_with_prev_errors);
      RUN_TEST(test_pid_reset_with_prev_errors);
- 
-     /* Free memory allocated by the arena allocator */
-     arena_allocator_api_free(&prev_errors);
  
      return UNITY_END();
  }

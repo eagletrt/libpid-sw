@@ -28,7 +28,9 @@ int main(void) {
     arena_allocator_api_init(&harena);
 
     PidController_t pid;
-    pid_init(&pid, 1.0, 0.1, 0.01, 0.1, 10.0, &harena, 3);
+    if(pid_init(&pid, 1.0, 0.1, 0.01, 0.1, 10.0, &harena, 3) != PID_SUCCESS){
+        // Error handling
+    }
 
     while (1) {
         float status = read_sensor_value();
@@ -44,14 +46,5 @@ int main(void) {
 
 > [!IMPORTANT]
 > Remember to free the arena memory at the end of the program, even if it never ends.
-
-## PID Functions
-
-This library provides the following functions:
-
-1. `pid_init(...)` - Initializes the PID controller with the provided parameters.
-2. `pid_update(...)` - Updates the error values and calculates the integral term with anti-windup.
-3. `pid_compute(...)` - Computes the control output based on the PID algorithm.
-4. `pid_reset(...)` - Resets the internal states of the PID controller.
 
 For more information, check the [examples](examples) folder.

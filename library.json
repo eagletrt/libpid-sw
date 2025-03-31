@@ -3,7 +3,7 @@
   "name": "PidController",
   "version": "0.1.0",
   "description": "A simple PID controller library for embedded systems",
-  "keywords": ["template"],
+  "keywords": ["pid", "controller", "embedded", "control"],
   "repository": {
     "type": "git",
     "url": "https://github.com/eagletrt/libpid-sw.git"
@@ -36,18 +36,18 @@
   "dependencies": [
     {
       "name": "ArenaAllocator",
-      "version": "https://github.com/eagletrt/libarena-allocator-sw"
+      "version": "https://github.com/eagletrt/libarena-allocator-sw.git#v1.0.0"
     }
   ],
   "headers": ["pid-controller.h", "pid-controller-api.h"],
   "examples": [
     {
       "name": "Simple Pid Controller Implementation",
-      "src": ["examples/pid-controller-basic.c"]
+      "src": ["examples/pid.c"]
     },
     {
-      "name": "Simple Pid Controller Implementation with Error Handling",
-      "src": ["examples/pid-controller-error-handling.c"]
+      "name": "Simple PID Controller Implementation without derivative (PI)",
+      "src": ["examples/pi.c"]
     }
   ],
   "export": {

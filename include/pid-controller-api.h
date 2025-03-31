@@ -10,11 +10,15 @@
  * parameters and integrates the error history for advanced control functionality.
  */
 
-#ifndef _PID_CONTROLLER_API_H_
-#define _PID_CONTROLLER_API_H_
+#ifndef PID_CONTROLLER_API_H
+#define PID_CONTROLLER_API_H
 
 #include <arena-allocator-api.h>
 #include "pid-controller.h"
+
+#define PID_SUCCESS 0
+#define PID_ERROR_NULL_PTR -1
+#define PID_ERROR_MEM_ALLOC -2
 
 /*!
  * \brief Initialize the PID controller.
@@ -49,7 +53,7 @@ int pid_controller_init(PidController_t *pid_controller,
  * \param[in] pid_controller Pointer to the PID controller structure.
  * \param[in] status Current system status (e.g., current value).
  */
-void pid_update(PidController_t *pid_controller, float status);
+void pid_controller_update(PidController_t *pid_controller, float status);
 
 /*!
  * \brief Compute the PID control value.

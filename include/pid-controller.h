@@ -12,8 +12,8 @@
  */
 
 
-#ifndef _PID_CONTROLLER_H_
-#define _PID_CONTROLLER_H_
+#ifndef PID_CONTROLLER_H
+#define PID_CONTROLLER_H
 
 #include <stdint.h>
 #include <arena-allocator-api.h>

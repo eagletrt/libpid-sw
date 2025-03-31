@@ -12,6 +12,7 @@
  */
 
 #include <math.h>
+#include <stdio.h>
 #include "pid-controller-api.h"
 
 /*!
@@ -40,7 +41,7 @@ int pid_controller_init(PidController_t *pid_controller,
               ArenaAllocatorHandler_t *arena,
               uint8_t n_prev_errors) {
 
-    if (pid_controller == NULL || (arena == NULL && n_prev_errors > 0)) return -1;
+    if (pid_controller == NULL || (arena == NULL && n_prev_errors > 0)) return PID_ERROR_NULL_PTR;
 
     pid_controller->kp = kp;
     pid_controller->ki = ki;
@@ -53,22 +54,22 @@ int pid_controller_init(PidController_t *pid_controller,
     pid_controller->anti_windUp = anti_windUp;
 
     if(n_prev_errors == 0){
-        pid_controller->n_prev_errors = n_prev_errors;
+        pid_controller->n_prev_errors = 0;
         pid_controller->prev_error_index = 0;
         pid_controller->prev_errors = NULL;
-        return 0;
+        return PID_SUCCESS;
     }
-
+        
+    pid_controller->n_prev_errors = n_prev_errors;
     pid_controller->prev_error_index = pid_controller->n_prev_errors - 1;
     pid_controller->prev_errors = (float*) arena_allocator_api_calloc(arena, sizeof(float), n_prev_errors);
     
-    if (pid_controller->prev_errors == NULL)  return -1; 
+    if (pid_controller->prev_errors == NULL)  return PID_ERROR_MEM_ALLOC; 
 
     for(int i = 0; i<n_prev_errors; i++){
         pid_controller->prev_errors[i] = 0.0f;
     }
-    
-    return 0;
+    return PID_SUCCESS;
 }
 
 /*!
@@ -82,7 +83,8 @@ int pid_controller_init(PidController_t *pid_controller,
  * \param status The current process variable (status) to be used in the PID calculation.
  */
 void pid_controller_update(PidController_t *pid_controller, float status) {
-    if(pid_controller->n_prev_errors == 0){
+
+    if(pid_controller->n_prev_errors == 0) {
         pid_controller->error = pid_controller->set_point - status;
         pid_controller->integrator += pid_controller->error * pid_controller->sample_time;
         return;
@@ -137,9 +139,7 @@ float pid_controller_compute(PidController_t *pid_controller) {
  */
 void pid_controller_reset(PidController_t *pid_controller) {
     pid_controller->integrator = 0.0f;
-
     pid_controller->error = 0.0f;
-
     for (int i = 0; i < pid_controller->n_prev_errors; ++i) {
         pid_controller->prev_errors[i] = 0.0f;
     }

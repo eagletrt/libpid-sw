@@ -36,7 +36,7 @@
       * \retval PID_ERROR_NULL_PTR if a null pointer is encountered.
       * \retval PID_ERROR_MEM_ALLOC if memory allocation fails.
       */
-     int ret = pid_controller_init(&pid, 
+     int ret = pid_controller_api_init(&pid, 
                                    1.0f,   /**< Proportional gain (Kp) */
                                    0.1f,   /**< Integral gain (Ki) */
                                    0.05f,  /**< Derivative gain (Kd) */
@@ -74,8 +74,8 @@
       * Updates the controller and computes control signals over 100 iterations.
       */
      for (int i = 0; i < 100; i++) {
-         pid_controller_update(&pid, process_var); /**< Update the PID controller with the current process value. */
-         float control_signal = pid_controller_compute(&pid); /**< Compute the control signal. */
+         pid_controller_api_update(&pid, process_var); /**< Update the PID controller with the current process value. */
+         float control_signal = pid_controller_api_compute(&pid); /**< Compute the control signal. */
  
          /**
           * \brief Simulate a simple system response.

@@ -28,14 +28,14 @@ int main(void) {
     arena_allocator_api_init(&harena);
 
     PidController_t pid;
-    if(pid_init(&pid, 1.0, 0.1, 0.01, 0.1, 10.0, &harena, 3) != PID_SUCCESS){
+    if(pid_controller_api_init(&pid, 1.0, 0.1, 0.01, 0.1, 10.0, &harena, 3) != PID_OK){
         // Error handling
     }
 
     while (1) {
         float status = read_sensor_value();
-        pid_update(&pid, status);
-        float output = pid_compute(&pid);
+        pid_controller_api_update(&pid, status);
+        float output = pid_controller_api_compute(&pid);
         apply_output(output);
     }
 

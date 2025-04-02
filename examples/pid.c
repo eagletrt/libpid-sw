@@ -32,9 +32,9 @@
       * The controller is initialized with a sample time of 0.1s and
       * a previous error history of 5.
       *
-      * \retval PID_SUCCESS if initialization is successful.
-      * \retval PID_ERROR_NULL_PTR if a null pointer is encountered.
-      * \retval PID_ERROR_MEM_ALLOC if memory allocation fails.
+      * \retval PID_OK if initialization is successful.
+      * \retval PID_NULL_POINTER if a null pointer is encountered.
+      * \retval PID_ALLOCATION_ERROR if memory allocation fails.
       */
      int ret = pid_controller_api_init(&pid, 
                                    1.0f,   /**< Proportional gain (Kp) */
@@ -45,15 +45,15 @@
                                    &arena, /**< Arena allocator */
                                    5       /**< Number of previous errors stored */
                                    );
-     if (ret != PID_SUCCESS) {
+     if (ret != PID_OK) {
          /**
           * \brief Error handling based on return code.
           */
          switch (ret) {
-             case PID_ERROR_NULL_PTR:
+             case PID_NULL_POINTER:
                  printf("Error: null pointer encountered.\n");
                  break;
-             case PID_ERROR_MEM_ALLOC:
+             case PID_ALLOCATION_ERROR:
                  printf("Error: Memory allocation failed.\n");
                  break;
              default:

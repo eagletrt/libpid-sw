@@ -41,7 +41,7 @@ int pid_controller_api_init(PidController_t *pid_controller,
               ArenaAllocatorHandler_t *arena,
               uint8_t n_prev_errors) {
 
-    if (pid_controller == NULL || (arena == NULL && n_prev_errors > 0)) return PID_ERROR_NULL_PTR;
+    if (pid_controller == NULL || (arena == NULL && n_prev_errors > 0)) return PID_NULL_POINTER;
 
     pid_controller->kp = kp;
     pid_controller->ki = ki;
@@ -57,19 +57,19 @@ int pid_controller_api_init(PidController_t *pid_controller,
         pid_controller->n_prev_errors = 0;
         pid_controller->prev_error_index = 0;
         pid_controller->prev_errors = NULL;
-        return PID_SUCCESS;
+        return PID_OK;
     }
         
     pid_controller->n_prev_errors = n_prev_errors;
     pid_controller->prev_error_index = pid_controller->n_prev_errors - 1;
     pid_controller->prev_errors = (float*) arena_allocator_api_calloc(arena, sizeof(float), n_prev_errors);
     
-    if (pid_controller->prev_errors == NULL)  return PID_ERROR_MEM_ALLOC; 
+    if (pid_controller->prev_errors == NULL)  return PID_ALLOCATION_ERROR; 
 
     for(int i = 0; i<n_prev_errors; i++){
         pid_controller->prev_errors[i] = 0.0f;
     }
-    return PID_SUCCESS;
+    return PID_OK;
 }
 
 /*!

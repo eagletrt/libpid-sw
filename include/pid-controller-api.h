@@ -16,10 +16,6 @@
 #include <arena-allocator-api.h>
 #include "pid-controller.h"
 
-#define PID_SUCCESS 0
-#define PID_ERROR_NULL_PTR -1
-#define PID_ERROR_MEM_ALLOC -2
-
 /*!
  * \brief Initialize the PID controller.
  * 

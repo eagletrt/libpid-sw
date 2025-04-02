@@ -18,6 +18,18 @@
 #include <stdint.h>
 #include <arena-allocator-api.h>
 
+
+/*!
+ * \brief Return codes for PID controller functions.
+ * 
+ * These codes indicate the success or failure of PID controller operations.
+ */
+typedef enum _PidReturnCode_t {
+    PID_OK = 0,
+    PID_NULL_POINTER,
+    PID_ALLOCATION_ERROR
+} PidReturnCode_t;
+
 /*!
  * \brief PID Controller structure.
  * 

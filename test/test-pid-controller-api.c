@@ -38,12 +38,12 @@
      arena_allocator_api_init(&arena_instance);
      /* Initialize PI mode (n_prev_errors = 0) */
      int ret1 = pid_controller_api_init(&pid, 1.0f, 0.1f, 0.01f, 0.1f, 10.0f, NULL, 0);
-     TEST_ASSERT_EQUAL_INT(PID_SUCCESS, ret1);
+     TEST_ASSERT_EQUAL_INT(PID_OK, ret1);
      pid.set_point = 10.0f;
      
      /* Initialize PID mode (n_prev_errors = 3) */
      int ret2 = pid_controller_api_init(&pid_controller_api_prev_errors, 1.0f, 0.1f, 0.01f, 0.1f, 10.0f, &arena_instance, 3);
-     TEST_ASSERT_EQUAL_INT(PID_SUCCESS, ret2);
+     TEST_ASSERT_EQUAL_INT(PID_OK, ret2);
      pid_controller_api_prev_errors.set_point = 10.0f;
  }
  
@@ -234,7 +234,7 @@ void test_pid_integrator_positive_clamp(void)
                         5.0f,    // anti_windUp threshold
                         &arena_dummy,
                         1);      // n_prev_errors = 1 (PID mode)
-    TEST_ASSERT_EQUAL_INT(PID_SUCCESS, ret);
+    TEST_ASSERT_EQUAL_INT(PID_OK, ret);
     
     pid_test.set_point = 100.0f; // set point far away to produce a large positive error
 
@@ -270,7 +270,7 @@ void test_pid_integrator_negative_clamp(void)
                         5.0f,    // anti_windUp threshold
                         &arena_dummy,
                         1);      // n_prev_errors = 1 (PID mode)
-    TEST_ASSERT_EQUAL_INT(PID_SUCCESS, ret);
+    TEST_ASSERT_EQUAL_INT(PID_OK, ret);
     
     pid_test.set_point = -100.0f; // set point far away to produce a large negative error
 
@@ -309,7 +309,7 @@ void test_pid_no_antiwindup_when_ki_is_small(void)
                                   5.0f,      // anti_windUp
                                   &arena_dummy,
                                   1);        // n_prev_errors > 0
-    TEST_ASSERT_EQUAL_INT(PID_SUCCESS, ret);
+    TEST_ASSERT_EQUAL_INT(PID_OK, ret);
 
     pid_test.set_point = 100.0f;
     // This update won't clamp integrator because the code is in the else path
@@ -332,7 +332,7 @@ void test_pid_no_antiwindup_when_ki_is_small(void)
   */
  void test_pid_init_null_ptr(void) {
      int ret = pid_controller_api_init(NULL, 1.0f, 0.1f, 0.01f, 0.1f, 10.0f, NULL, 0);
-     TEST_ASSERT_EQUAL_INT(PID_ERROR_NULL_PTR, ret);
+     TEST_ASSERT_EQUAL_INT(PID_NULL_POINTER, ret);
  }
  
  /*!
@@ -342,7 +342,7 @@ void test_pid_no_antiwindup_when_ki_is_small(void)
   */
  void test_pid_init_null_arena(void) {
      int ret = pid_controller_api_init(&pid, 1.0f, 0.1f, 0.01f, 0.1f, 10.0f, NULL, 3);
-     TEST_ASSERT_EQUAL_INT(PID_ERROR_NULL_PTR, ret);
+     TEST_ASSERT_EQUAL_INT(PID_NULL_POINTER, ret);
  }
 
  /* ===== MAIN FUNCTION TO RUN THE TESTS ===== */

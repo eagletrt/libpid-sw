@@ -39,7 +39,7 @@
       "version": "https://github.com/eagletrt/libarena-allocator-sw.git#v1.0.0"
     }
   ],
-  "headers": ["pid-controller.h", "pid-controller-api.h"],
+  "headers": "pid-controller-api.h",
   "examples": [
     {
       "name": "Simple Pid Controller Implementation",

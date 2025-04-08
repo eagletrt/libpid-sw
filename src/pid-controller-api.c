@@ -33,15 +33,16 @@
  * \param n_prev_errors The number of previous errors to store for derivative calculation.
  */
 int pid_controller_api_init(PidController_t *pid_controller,
-              float kp,
-              float ki,
-              float kd,
-              float sample_time,
-              float anti_windUp,
-              ArenaAllocatorHandler_t *arena,
-              uint8_t n_prev_errors) {
+                            float kp,
+                            float ki,
+                            float kd,
+                            float sample_time,
+                            float anti_windUp,
+                            ArenaAllocatorHandler_t *arena,
+                            uint8_t n_prev_errors) {
 
-    if (pid_controller == NULL || (arena == NULL && n_prev_errors > 0)) return PID_NULL_POINTER;
+    if (pid_controller == NULL || (arena == NULL && n_prev_errors > 0))
+        return PID_NULL_POINTER;
 
     pid_controller->kp = kp;
     pid_controller->ki = ki;
@@ -53,20 +54,21 @@ int pid_controller_api_init(PidController_t *pid_controller,
     pid_controller->sample_time = sample_time;
     pid_controller->anti_windUp = anti_windUp;
 
-    if(n_prev_errors == 0){
+    if (n_prev_errors == 0) {
         pid_controller->n_prev_errors = 0;
         pid_controller->prev_error_index = 0;
         pid_controller->prev_errors = NULL;
         return PID_OK;
     }
-        
+
     pid_controller->n_prev_errors = n_prev_errors;
     pid_controller->prev_error_index = pid_controller->n_prev_errors - 1;
-    pid_controller->prev_errors = (float*) arena_allocator_api_calloc(arena, sizeof(float), n_prev_errors);
-    
-    if (pid_controller->prev_errors == NULL)  return PID_ALLOCATION_ERROR; 
+    pid_controller->prev_errors = (float *)arena_allocator_api_calloc(arena, sizeof(float), n_prev_errors);
 
-    for(int i = 0; i<n_prev_errors; i++){
+    if (pid_controller->prev_errors == NULL)
+        return PID_ALLOCATION_ERROR;
+
+    for (int i = 0; i < n_prev_errors; i++) {
         pid_controller->prev_errors[i] = 0.0f;
     }
     return PID_OK;
@@ -84,7 +86,7 @@ int pid_controller_api_init(PidController_t *pid_controller,
  */
 void pid_controller_api_update(PidController_t *pid_controller, float status) {
 
-    if(pid_controller->n_prev_errors == 0) {
+    if (pid_controller->n_prev_errors == 0) {
         pid_controller->error = pid_controller->set_point - status;
         pid_controller->integrator += pid_controller->error * pid_controller->sample_time;
         return;
@@ -115,7 +117,7 @@ void pid_controller_api_update(PidController_t *pid_controller, float status) {
  */
 float pid_controller_api_compute(PidController_t *pid_controller) {
 
-    if(pid_controller->n_prev_errors == 0){
+    if (pid_controller->n_prev_errors == 0) {
         float integral = pid_controller->ki * pid_controller->integrator;
         float value = pid_controller->kp * pid_controller->error + integral;
         return value;

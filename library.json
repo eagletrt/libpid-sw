@@ -1,56 +1,68 @@
 {
-  "$schema": "https://raw.githubusercontent.com/platformio/platformio-core/develop/platformio/assets/schema/library.json",
-  "name": "PidController",
-  "version": "0.1.0",
-  "description": "A simple PID controller library for embedded systems",
-  "keywords": ["pid", "controller", "embedded", "control"],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/eagletrt/libpid-sw.git"
-  },
-  "authors": [
-    {
-      "name": "Simone Ruffini",
-      "email": "",
-      "maintainer": false
+    "$schema": "https://raw.githubusercontent.com/platformio/platformio-core/develop/platformio/assets/schema/library.json",
+    "name": "PidController",
+    "version": "0.1.0",
+    "description": "A simple PID controller library for embedded systems",
+    "keywords": [
+        "pid",
+        "controller",
+        "embedded",
+        "control"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/eagletrt/libpid-sw.git"
     },
-    {
-      "name": "Filippo Faccini",
-      "email": "",
-      "maintainer": false
-    },
-    {
-      "name": "Alessandro Conforti",
-      "email": "",
-      "maintainer": false
-    },
-    {
-      "name": "Valerio Cancemi",
-      "email": "valerio.cancemi04@gmail.com",
-      "maintainer": true
+    "authors": [
+        {
+            "name": "Simone Ruffini",
+            "email": "",
+            "maintainer": false
+        },
+        {
+            "name": "Filippo Faccini",
+            "email": "",
+            "maintainer": false
+        },
+        {
+            "name": "Alessandro Conforti",
+            "email": "",
+            "maintainer": false
+        },
+        {
+            "name": "Valerio Cancemi",
+            "email": "valerio.cancemi04@gmail.com",
+            "maintainer": true
+        }
+    ],
+    "license": "AGPL-3.0-only",
+    "frameworks": "*",
+    "platforms": "*",
+    "dependencies": [
+        {
+            "name": "ArenaAllocator",
+            "version": "https://github.com/eagletrt/libarena-allocator-sw.git#v1.0.0"
+        }
+    ],
+    "headers": "pid-controller-api.h",
+    "examples": [
+        {
+            "name": "Simple Pid Controller Implementation",
+            "src": [
+                "examples/pid.c"
+            ]
+        },
+        {
+            "name": "Simple PID Controller Implementation without derivative (PI)",
+            "src": [
+                "examples/pi.c"
+            ]
+        }
+    ],
+    "export": {
+        "include": [
+            "src/**",
+            "include/**"
+        ]
     }
-  ],
-  "license": "AGPL-3.0-only",
-  "frameworks": "*",
-  "platforms": "*",
-  "dependencies": [
-    {
-      "name": "ArenaAllocator",
-      "version": "https://github.com/eagletrt/libarena-allocator-sw.git#v1.0.0"
-    }
-  ],
-  "headers": "pid-controller-api.h",
-  "examples": [
-    {
-      "name": "Simple Pid Controller Implementation",
-      "src": ["examples/pid.c"]
-    },
-    {
-      "name": "Simple PID Controller Implementation without derivative (PI)",
-      "src": ["examples/pi.c"]
-    }
-  ],
-  "export": {
-    "include": ["src/**", "include/**"]
-  }
 }

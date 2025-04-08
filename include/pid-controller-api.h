@@ -32,13 +32,13 @@
  * \param[in] n_prev_errors Number of previous errors to store for derivative calculation.
  */
 int pid_controller_api_init(PidController_t *pid_controller,
-              float kp,
-              float ki,
-              float kd,
-              float sample_time,
-              float anti_windUp,
-              ArenaAllocatorHandler_t *prev_errors,
-              uint8_t n_prev_errors);
+                            float kp,
+                            float ki,
+                            float kd,
+                            float sample_time,
+                            float anti_windUp,
+                            ArenaAllocatorHandler_t *prev_errors,
+                            uint8_t n_prev_errors);
 
 /*!
  * \brief Update the PID controller with the current status.

@@ -11,13 +11,11 @@
  * conjunction with the PID controller API to implement control functionality.
  */
 
-
 #ifndef PID_CONTROLLER_H
 #define PID_CONTROLLER_H
 
 #include <stdint.h>
 #include <arena-allocator-api.h>
-
 
 /*!
  * \brief Return codes for PID controller functions.
@@ -38,17 +36,17 @@ typedef enum _PidReturnCode_t {
  * information about previous errors used for derivative calculation.
  */
 typedef struct pidController_t {
-    float kp;                   //Proportional gain 
-    float ki;                   //Integral gain 
-    float kd;                   //Derivative gain 
-    float integrator;           //Integral value 
-    float error;                //Current error (set_point - status) 
-    float sample_time;          //Sample time (seconds) 
-    float set_point;            //Desired target value 
-    float anti_windUp;          //Anti-windup limit for integrator 
-    uint8_t n_prev_errors;      //Number of previous errors stored for derivative 
-    int prev_error_index;       //Index of the last stored error 
-    float *prev_errors;         //Array of previous errors for derivative calculation 
+    float kp;              //Proportional gain
+    float ki;              //Integral gain
+    float kd;              //Derivative gain
+    float integrator;      //Integral value
+    float error;           //Current error (set_point - status)
+    float sample_time;     //Sample time (seconds)
+    float set_point;       //Desired target value
+    float anti_windUp;     //Anti-windup limit for integrator
+    uint8_t n_prev_errors; //Number of previous errors stored for derivative
+    int prev_error_index;  //Index of the last stored error
+    float *prev_errors;    //Array of previous errors for derivative calculation
 } PidController_t;
 
 #endif

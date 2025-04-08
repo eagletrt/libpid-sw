@@ -24,10 +24,10 @@ ArenaAllocatorHandler_t arena_instance;
 /* ===== SETUP and TEARDOWN ===== */
 
 /*!
-  * \brief Set up the test environment before each test.
-  *
-  * Initializes the PID controllers and the arena allocator.
-  */
+ * \brief Set up the test environment before each test.
+ *
+ * Initializes the PID controllers and the arena allocator.
+ */
 void setUp(void) {
     arena_allocator_api_init(&arena_instance);
     /* Initialize PI mode (n_prev_errors = 0) */
@@ -40,10 +40,10 @@ void setUp(void) {
 }
 
 /*!
-  * \brief Clean up after each test.
-  *
-  * Resets the PID controllers and frees memory allocated by the arena allocator.
-  */
+ * \brief Clean up after each test.
+ *
+ * Resets the PID controllers and frees memory allocated by the arena allocator.
+ */
 void tearDown(void) {
     pid_controller_api_reset(&pid);
     pid_controller_api_reset(&pid_controller_api_prev_errors);
@@ -54,13 +54,14 @@ void tearDown(void) {
 /*                           PI MODE TESTS                                    */
 /*============================================================================*/
 
-/*! \defgroup PID_PI_Tests PI Mode Tests
-  *  @{
-  */
+/*!
+ * \defgroup PID_PI_Tests PI Mode Tests
+ * @{
+ */
 
 /*!
-  * \brief Test initialization of the PI controller by comparing all fields in one assert.
-  */
+ * \brief Test initialization of the PI controller by comparing all fields in one assert.
+ */
 void test_pid_initialization_PI(void) {
     /* Expected state for PI mode after initialization */
     TEST_ASSERT_EQUAL_FLOAT_MESSAGE(1.0f, pid.kp, "Error: the value of kp does not match the expected value of 1.0f");
@@ -77,10 +78,10 @@ void test_pid_initialization_PI(void) {
 }
 
 /*!
-  * \brief Test update of the PI controller using input 8.0.
-  *
-  * Checks that the error field is updated correctly.
-  */
+ * \brief Test update of the PI controller using input 8.0.
+ *
+ * Checks that the error field is updated correctly.
+ */
 void test_pid_update_PI_input8(void) {
     pid_controller_api_update(&pid, 8.0f);
     float expected_error = 2.0f;
@@ -88,10 +89,10 @@ void test_pid_update_PI_input8(void) {
 }
 
 /*!
-  * \brief Test update of the PI controller using input 9.0.
-  *
-  * Checks that the error field is updated correctly.
-  */
+ * \brief Test update of the PI controller using input 9.0.
+ *
+ * Checks that the error field is updated correctly.
+ */
 void test_pid_update_PI_input9(void) {
     pid_controller_api_update(&pid, 9.0f);
     float expected_error = 1.0f;
@@ -99,10 +100,10 @@ void test_pid_update_PI_input9(void) {
 }
 
 /*!
-  * \brief Test compute function of the PI controller.
-  *
-  * Ensures that the computed output is positive.
-  */
+ * \brief Test compute function of the PI controller.
+ *
+ * Ensures that the computed output is positive.
+ */
 void test_pid_compute_PI(void) {
     pid_controller_api_update(&pid, 8.0f);
     float output = pid_controller_api_compute(&pid);
@@ -110,10 +111,10 @@ void test_pid_compute_PI(void) {
 }
 
 /*!
-  * \brief Test reset function of the PI controller.
-  *
-  * Verifies that integrator and error are reset.
-  */
+ * \brief Test reset function of the PI controller.
+ *
+ * Verifies that integrator and error are reset.
+ */
 void test_pid_reset_PI(void) {
     pid_controller_api_update(&pid, 8.0f);
     pid_controller_api_reset(&pid);
@@ -130,15 +131,16 @@ void test_pid_reset_PI(void) {
 /*                    PID MODE (PREVIOUS ERRORS) TESTS                        */
 /*============================================================================*/
 
-/*! \defgroup PID_PrevErrors_Tests PID Mode with Previous Errors Tests
-  *  @{
-  */
+/*!
+ * \defgroup PID_PrevErrors_Tests PID Mode with Previous Errors Tests
+ * @{
+ */
 
 /*!
-  * \brief Test initialization of the PID controller with previous error tracking.
-  *
-  * Compares the entire structure with the expected values.
-  */
+ * \brief Test initialization of the PID controller with previous error tracking.
+ *
+ * Compares the entire structure with the expected values.
+ */
 void test_pid_initialization_with_prev_errors(void) {
     /* Expected state for PID mode with previous errors after initialization */
     TEST_ASSERT_EQUAL_FLOAT_MESSAGE(1.0f, pid_controller_api_prev_errors.kp, "Error: the value of kp does not match the expected value of 1.0f");
@@ -157,10 +159,10 @@ void test_pid_initialization_with_prev_errors(void) {
 }
 
 /*!
-  * \brief Test update of the PID controller with previous error tracking using input 8.0.
-  *
-  * Checks that the error field is updated.
-  */
+ * \brief Test update of the PID controller with previous error tracking using input 8.0.
+ *
+ * Checks that the error field is updated.
+ */
 void test_pid_update_with_prev_errors_input8(void) {
     pid_controller_api_update(&pid_controller_api_prev_errors, 8.0f);
     float expected_error = 2.0f;
@@ -168,10 +170,10 @@ void test_pid_update_with_prev_errors_input8(void) {
 }
 
 /*!
-  * \brief Test update of the PID controller with previous error tracking using input 9.0.
-  *
-  * Performs two updates and confirms that the last error is as expected.
-  */
+ * \brief Test update of the PID controller with previous error tracking using input 9.0.
+ *
+ * Performs two updates and confirms that the last error is as expected.
+ */
 void test_pid_update_with_prev_errors_input9(void) {
     pid_controller_api_update(&pid_controller_api_prev_errors, 8.0f);
     pid_controller_api_update(&pid_controller_api_prev_errors, 9.0f);
@@ -180,11 +182,11 @@ void test_pid_update_with_prev_errors_input9(void) {
 }
 
 /*!
-  * \brief Test update sequence with inputs 8.0, 9.0, and 10.0.
-  *
-  * Verifies that the current error becomes 0.0 and the previous error buffer is updated 
-  * in a circular manner.
-  */
+ * \brief Test update sequence with inputs 8.0, 9.0, and 10.0.
+ *
+ * Verifies that the current error becomes 0.0 and the previous error buffer is updated 
+ * in a circular manner.
+ */
 void test_pid_update_with_prev_errors_input10(void) {
     pid_controller_api_update(&pid_controller_api_prev_errors, 8.0f);  // error = 2.0
     pid_controller_api_update(&pid_controller_api_prev_errors, 9.0f);  // error = 1.0
@@ -194,10 +196,10 @@ void test_pid_update_with_prev_errors_input10(void) {
 }
 
 /*!
-  * \brief Test compute function of the PID controller with previous error tracking.
-  *
-  * Ensures that the computed output is positive.
-  */
+ * \brief Test compute function of the PID controller with previous error tracking.
+ *
+ * Ensures that the computed output is positive.
+ */
 void test_pid_compute_with_prev_errors(void) {
     pid_controller_api_update(&pid_controller_api_prev_errors, 8.0f);
     float output = pid_controller_api_compute(&pid_controller_api_prev_errors);
@@ -205,10 +207,10 @@ void test_pid_compute_with_prev_errors(void) {
 }
 
 /*!
-  * \brief Test reset function of the PID controller with previous error tracking.
-  *
-  * Checks that integrator, error, and the previous error buffer are reset.
-  */
+ * \brief Test reset function of the PID controller with previous error tracking.
+ *
+ * Checks that integrator, error, and the previous error buffer are reset.
+ */
 void test_pid_reset_with_prev_errors(void) {
     pid_controller_api_update(&pid_controller_api_prev_errors, 8.0f);
     pid_controller_api_reset(&pid_controller_api_prev_errors);
@@ -228,13 +230,14 @@ void test_pid_reset_with_prev_errors(void) {
 /*                     INTEGRATOR CLAMPING TESTS                              */
 /*============================================================================*/
 
-/*! \defgroup PID_Clamping_Tests Integrator Clamping Tests
-  *  @{
-  */
+/*!
+ * \defgroup PID_Clamping_Tests Integrator Clamping Tests
+ * @{
+ */
 
 /*!
-  * \brief Test that the integrator is clamped (positive saturation).
-  */
+ * \brief Test that the integrator is clamped (positive saturation).
+ */
 void test_pid_integrator_positive_clamp(void) {
     PidController_t pid_test;
     ArenaAllocatorHandler_t arena_dummy;
@@ -260,8 +263,8 @@ void test_pid_integrator_positive_clamp(void) {
 }
 
 /*!
-  * \brief Test that the integrator is clamped (negative saturation).
-  */
+ * \brief Test that the integrator is clamped (negative saturation).
+ */
 void test_pid_integrator_negative_clamp(void) {
     PidController_t pid_test;
     ArenaAllocatorHandler_t arena_dummy;
@@ -287,8 +290,8 @@ void test_pid_integrator_negative_clamp(void) {
 }
 
 /*!
-  * \brief Test that anti-windup is not applied when ki is very small.
-  */
+ * \brief Test that anti-windup is not applied when ki is very small.
+ */
 void test_pid_no_antiwindup_when_ki_is_small(void) {
     PidController_t pid_test;
     ArenaAllocatorHandler_t arena_dummy;
@@ -319,21 +322,22 @@ void test_pid_no_antiwindup_when_ki_is_small(void) {
 /*                             ERROR CASE TESTS                               */
 /*============================================================================*/
 
-/*! \defgroup PID_Error_Tests Error Case Tests
-  *  @{
-  */
+/*!
+ * \defgroup PID_Error_Tests Error Case Tests
+ * @{
+ */
 
 /*!
-  * \brief Test PID controller initialization with a NULL pointer.
-  */
+ * \brief Test PID controller initialization with a NULL pointer.
+ */
 void test_pid_init_null_ptr(void) {
     int ret = pid_controller_api_init(NULL, 1.0f, 0.1f, 0.01f, 0.1f, 10.0f, NULL, 0);
     TEST_ASSERT_EQUAL_INT(PID_NULL_POINTER, ret);
 }
 
 /*!
-  * \brief Test PID controller initialization with a NULL arena when previous error tracking is requested.
-  */
+ * \brief Test PID controller initialization with a NULL arena when previous error tracking is requested.
+ */
 void test_pid_init_null_arena(void) {
     int ret = pid_controller_api_init(&pid, 1.0f, 0.1f, 0.01f, 0.1f, 10.0f, NULL, 3);
     TEST_ASSERT_EQUAL_INT(PID_NULL_POINTER, ret);
@@ -346,38 +350,54 @@ void test_pid_init_null_arena(void) {
 /*============================================================================*/
 
 /*!
-  * \brief Main function for running all PID unit tests.
-  *
-  * Executes all defined tests using the Unity test framework.
-  *
-  * \return Unity test results.
-  */
+ * \brief Main function for running all PID unit tests.
+ *
+ * Executes all defined tests using the Unity test framework.
+ *
+ * \return Unity test results.
+ */
 int main(void) {
     UNITY_BEGIN();
 
-    /* PI mode tests */
+    /*!
+     * \addgroup PID_PI_Tests PI mode tests
+     * @{
+     */
     RUN_TEST(test_pid_initialization_PI);
     RUN_TEST(test_pid_update_PI_input8);
     RUN_TEST(test_pid_update_PI_input9);
     RUN_TEST(test_pid_compute_PI);
     RUN_TEST(test_pid_reset_PI);
+    /*! @} */ // end of PID_PI_Tests
 
-    /* PID mode tests (with previous error tracking) */
+    /*!
+     * \addgroup PID_PrevErrors_Tests PID mode with previous errors tests
+     * @{
+     */
     RUN_TEST(test_pid_initialization_with_prev_errors);
     RUN_TEST(test_pid_update_with_prev_errors_input8);
     RUN_TEST(test_pid_update_with_prev_errors_input9);
     RUN_TEST(test_pid_update_with_prev_errors_input10);
     RUN_TEST(test_pid_compute_with_prev_errors);
     RUN_TEST(test_pid_reset_with_prev_errors);
+    /*! @} */ // end of PID_PrevErrors_Tests
 
-    /* Integrator clamping tests */
+    /*!
+     * \defgroup PID_Clamping_Tests Integrator Clamping Tests
+     * @{
+     */
     RUN_TEST(test_pid_integrator_positive_clamp);
     RUN_TEST(test_pid_integrator_negative_clamp);
     RUN_TEST(test_pid_no_antiwindup_when_ki_is_small);
+    /*! @} */ // end of PID_Clamping_Tests
 
-    /* Error case tests */
+    /*!
+     * \addgroup PID_Error_Tests Error Case Tests
+     * @{
+     */
     RUN_TEST(test_pid_init_null_ptr);
     RUN_TEST(test_pid_init_null_arena);
+    /*! @} */ // end of PID_Error_Tests
 
     return UNITY_END();
 }

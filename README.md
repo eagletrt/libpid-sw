@@ -27,7 +27,7 @@ int main(void) {
     ArenaAllocatorHandler_t harena;
     arena_allocator_api_init(&harena);
 
-    struct PidController pid;
+    PidController_t pid;
     if(pid_controller_api_init(&pid, 1.0, 0.1, 0.01, 0.1, 10.0, &harena, 3) != PID_OK){
         // Error handling
     }

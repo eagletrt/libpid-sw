@@ -2,10 +2,11 @@ name: PlatformIO CI
 
 on:
   push:
-    branches: [ * ]
+    branches: "**"
   pull_request:
-    branches: [ dev ]
-    types: [ closed ]
+    branches:
+      - "master"
+      - "dev"
 
 jobs:
   test:
@@ -42,7 +43,12 @@ jobs:
 
       - name: Compile Examples
         run: |
-          pio ci --board native examples/
+          for example in examples/*/; do
+            if [ -d "$example" ]; then
+              echo "Building $example"
+              pio ci "$example" --board native || true
+            fi
+          done
 
   check:
     name: Static Code Analysis

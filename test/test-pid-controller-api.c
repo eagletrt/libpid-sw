@@ -17,8 +17,8 @@
 #include "pid-controller-api.h"
 
 /* Global instances for PID controller tests. */
-PidController_t pid;
-PidController_t pid_controller_api_prev_errors;
+struct PidController pid;
+struct PidController pid_controller_api_prev_errors;
 ArenaAllocatorHandler_t arena_instance;
 
 /* ===== SETUP and TEARDOWN ===== */
@@ -119,10 +119,10 @@ void test_pid_reset_PI(void) {
     pid_controller_api_update(&pid, 8.0f);
     pid_controller_api_reset(&pid);
     /* Expected state after reset (only checking two fields) */
-    PidController_t expected = pid;
+    struct PidController expected = pid;
     expected.integrator = 0.0f;
     expected.error = 0.0f;
-    TEST_ASSERT_EQUAL_MEMORY(&expected, &pid, sizeof(PidController_t));
+    TEST_ASSERT_EQUAL_MEMORY(&expected, &pid, sizeof(struct PidController));
 }
 
 /*! @} */ // end of PID_PI_Tests
@@ -216,12 +216,12 @@ void test_pid_reset_with_prev_errors(void) {
     pid_controller_api_reset(&pid_controller_api_prev_errors);
 
     /* Prepare an expected structure with reset values. For the previous errors array we assume all zeros. */
-    PidController_t expected = pid_controller_api_prev_errors;
+    struct PidController expected = pid_controller_api_prev_errors;
     expected.integrator = 0.0f;
     expected.error = 0.0f;
     for (int i = 0; i < expected.n_prev_errors; i++)
         ((float *)expected.prev_errors)[i] = 0.0f;
-    TEST_ASSERT_EQUAL_MEMORY(&expected, &pid_controller_api_prev_errors, sizeof(PidController_t));
+    TEST_ASSERT_EQUAL_MEMORY(&expected, &pid_controller_api_prev_errors, sizeof(struct PidController));
 }
 
 /*! @} */ // end of PID_PrevErrors_Tests
@@ -239,7 +239,7 @@ void test_pid_reset_with_prev_errors(void) {
  * \brief Test that the integrator is clamped (positive saturation).
  */
 void test_pid_integrator_positive_clamp(void) {
-    PidController_t pid_test;
+    struct PidController pid_test;
     ArenaAllocatorHandler_t arena_dummy;
     arena_allocator_api_init(&arena_dummy);
     int ret = pid_controller_api_init(&pid_test,
@@ -266,7 +266,7 @@ void test_pid_integrator_positive_clamp(void) {
  * \brief Test that the integrator is clamped (negative saturation).
  */
 void test_pid_integrator_negative_clamp(void) {
-    PidController_t pid_test;
+    struct PidController pid_test;
     ArenaAllocatorHandler_t arena_dummy;
     arena_allocator_api_init(&arena_dummy);
     int ret = pid_controller_api_init(&pid_test,
@@ -293,7 +293,7 @@ void test_pid_integrator_negative_clamp(void) {
  * \brief Test that anti-windup is not applied when ki is very small.
  */
 void test_pid_no_antiwindup_when_ki_is_small(void) {
-    PidController_t pid_test;
+    struct PidController pid_test;
     ArenaAllocatorHandler_t arena_dummy;
     arena_allocator_api_init(&arena_dummy);
 

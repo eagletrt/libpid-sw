@@ -22,11 +22,11 @@
  * 
  * These codes indicate the success or failure of PID controller operations.
  */
-typedef enum _PidReturnCode_t {
+enum PidReturnCode {
     PID_OK = 0,
     PID_NULL_POINTER,
     PID_ALLOCATION_ERROR
-} PidReturnCode_t;
+};
 
 /*!
  * \brief PID Controller structure.
@@ -35,7 +35,7 @@ typedef enum _PidReturnCode_t {
  * the integrator, error, set point, and anti-windup limit. It also holds 
  * information about previous errors used for derivative calculation.
  */
-typedef struct pidController_t {
+struct PidController {
     float kp;              //Proportional gain
     float ki;              //Integral gain
     float kd;              //Derivative gain
@@ -47,6 +47,6 @@ typedef struct pidController_t {
     uint8_t n_prev_errors; //Number of previous errors stored for derivative
     int prev_error_index;  //Index of the last stored error
     float *prev_errors;    //Array of previous errors for derivative calculation
-} PidController_t;
+};
 
 #endif

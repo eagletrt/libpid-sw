@@ -19,7 +19,7 @@
 /* Global instances for PID controller tests. */
 struct PidController pid;
 struct PidController pid_controller_api_prev_errors;
-ArenaAllocatorHandler_t arena_instance;
+struct ArenaAllocatorHandler arena_instance;
 
 /* ===== SETUP and TEARDOWN ===== */
 
@@ -240,7 +240,7 @@ void test_pid_reset_with_prev_errors(void) {
  */
 void test_pid_integrator_positive_clamp(void) {
     struct PidController pid_test;
-    ArenaAllocatorHandler_t arena_dummy;
+    struct ArenaAllocatorHandler arena_dummy;
     arena_allocator_api_init(&arena_dummy);
     int ret = pid_controller_api_init(&pid_test,
                                       1.0f,  // kp
@@ -267,7 +267,7 @@ void test_pid_integrator_positive_clamp(void) {
  */
 void test_pid_integrator_negative_clamp(void) {
     struct PidController pid_test;
-    ArenaAllocatorHandler_t arena_dummy;
+    struct ArenaAllocatorHandler arena_dummy;
     arena_allocator_api_init(&arena_dummy);
     int ret = pid_controller_api_init(&pid_test,
                                       1.0f,  // kp
@@ -294,7 +294,7 @@ void test_pid_integrator_negative_clamp(void) {
  */
 void test_pid_no_antiwindup_when_ki_is_small(void) {
     struct PidController pid_test;
-    ArenaAllocatorHandler_t arena_dummy;
+    struct ArenaAllocatorHandler arena_dummy;
     arena_allocator_api_init(&arena_dummy);
 
     int ret = pid_controller_api_init(&pid_test,

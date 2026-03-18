@@ -21,10 +21,10 @@
   * \return 0 if execution is successful, -1 if an error occurs.
   */
 int main(void) {
-    ArenaAllocatorHandler_t arena; /*!< Dummy instance of the allocator. */
+    struct ArenaAllocatorHandler harena; /*!< Dummy instance of the allocator. */
     struct PidController pi;       /*!< PI controller instance. */
 
-    arena_allocator_api_init(&arena); /*!< Initialize the arena allocator. */
+    arena_allocator_api_init(&harena); /*!< Initialize the arena allocator. */
 
     /*!
       * \brief Initialize the PI controller.
@@ -86,7 +86,7 @@ int main(void) {
         printf("Iteration %d: Control = %f, Process = %f\n", i, control_signal, process_var);
     }
 
-    arena_allocator_api_free(&arena); /*!< Free the memory allocated by the arena allocator. */
+    arena_allocator_api_free(&harena); /*!< Free the memory allocated by the arena allocator. */
 
     return 0;
 }

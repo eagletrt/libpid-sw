@@ -37,7 +37,7 @@ int pid_controller_api_init(struct PidController *pid_controller,
                             float kd,
                             float sample_time,
                             float anti_windUp,
-                            ArenaAllocatorHandler_t *prev_errors,
+                            struct ArenaAllocatorHandler *prev_errors,
                             uint8_t n_prev_errors);
 
 /*!

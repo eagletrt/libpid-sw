@@ -21,10 +21,10 @@
   * \return 0 if execution is successful, -1 if an error occurs.
   */
 int main(void) {
-    ArenaAllocatorHandler_t arena; /*!< Dummy instance of the allocator. */
+    struct ArenaAllocatorHandler harena; /*!< Dummy instance of the allocator. */
     PidController_t pid;           /*!< PID controller instance. */
 
-    arena_allocator_api_init(&arena); /*!< Initialize the arena allocator. */
+    arena_allocator_api_init(&harena); /*!< Initialize the arena allocator. */
 
     /*!
       * \brief Initialize the PID controller.
@@ -42,7 +42,7 @@ int main(void) {
                                       0.05f,  /*!< Derivative gain (Kd) */
                                       0.1f,   /*!< Sample time in seconds */
                                       10.0f,  /*!< Anti-windup limit */
-                                      &arena, /*!< Arena allocator */
+                                      &harena, /*!< Arena allocator */
                                       5       /*!< Number of previous errors stored */
     );
     if (ret != PID_OK) {
@@ -87,7 +87,7 @@ int main(void) {
         printf("Iteration %d: Control = %f, Process = %f\n", i, control_signal, process_var);
     }
 
-    arena_allocator_api_free(&arena); /*!< Free the memory allocated by the arena allocator. */
+    arena_allocator_api_free(&harena); /*!< Free the memory allocated by the arena allocator. */
 
     return 0;
 }

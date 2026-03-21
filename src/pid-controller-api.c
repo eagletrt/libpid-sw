@@ -38,10 +38,10 @@ int pid_controller_api_init(struct PidController *pid_controller,
                             float kd,
                             float sample_time,
                             float anti_windUp,
-                            ArenaAllocatorHandler_t *arena,
+                            struct ArenaAllocatorHandler *harena,
                             uint8_t n_prev_errors) {
 
-    if (pid_controller == NULL || (arena == NULL && n_prev_errors > 0))
+    if (pid_controller == NULL || (harena == NULL && n_prev_errors > 0))
         return PID_NULL_POINTER;
 
     pid_controller->kp = kp;
@@ -63,7 +63,7 @@ int pid_controller_api_init(struct PidController *pid_controller,
 
     pid_controller->n_prev_errors = n_prev_errors;
     pid_controller->prev_error_index = pid_controller->n_prev_errors - 1;
-    pid_controller->prev_errors = (float *)arena_allocator_api_calloc(arena, sizeof(float), n_prev_errors);
+    pid_controller->prev_errors = (float *)arena_allocator_api_calloc(harena, sizeof(float), n_prev_errors);
 
     if (pid_controller->prev_errors == NULL)
         return PID_ALLOCATION_ERROR;

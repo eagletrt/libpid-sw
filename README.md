@@ -15,20 +15,19 @@ The main advantage of a PID controller is its ability to dynamically adjust its 
 
 ## Dependencies
 
-This library uses [ArenaAllocator](https://github.com/eagletrt/libarena-allocator-sw/) for memory management. Make sure to initialize ArenaAllocatorHandler_t to use prev_errors array.
+This library uses [ArenaAllocator](https://github.com/eagletrt/libarena-allocator-sw/) for memory management. Make sure to initialize the arena handler structure before using any of the PID functions.
 
 ## Usage
 
 To use this library, include the `pid-controller-api.h` header file in your program, declare a PID controller handler, and initialize it with the appropriate function before processing inputs.
 
 ```c
-
 int main(void) {
-    ArenaAllocatorHandler_t harena;
-    arena_allocator_api_init(&harena);
+    struct ArenaAllocatorHandler arena;
+    arena_allocator_api_init(&arena);
 
     struct PidController pid;
-    if(pid_controller_api_init(&pid, 1.0, 0.1, 0.01, 0.1, 10.0, &harena, 3) != PID_OK){
+    if(pid_controller_api_init(&pid, 1.0, 0.1, 0.01, 0.1, 10.0, &arena, 3) != PID_OK){
         // Error handling
     }
 
@@ -39,7 +38,7 @@ int main(void) {
         apply_output(output);
     }
 
-    arena_allocator_api_free(&harena);
+    arena_allocator_api_free(&arena);
     return 0;
 }
 ```

@@ -22,7 +22,7 @@
   */
 int main(void) {
     struct ArenaAllocatorHandler harena; /*!< Dummy instance of the allocator. */
-    PidController_t pid;           /*!< PID controller instance. */
+    struct PidController pid;           /*!< PID controller instance. */
 
     arena_allocator_api_init(&harena); /*!< Initialize the arena allocator. */
 

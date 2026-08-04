@@ -36,7 +36,7 @@
   "dependencies": [
     {
       "name": "ArenaAllocator",
-      "version": "https://github.com/eagletrt/libarena-allocator-sw.git#v2.0.0"
+      "version": "https://github.com/eagletrt/libarena-allocator-sw.git#v2.0.1"
     }
   ],
   "headers": "pid-controller-api.h",
